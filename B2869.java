@@ -11,17 +11,12 @@ public class B2869 {
 		int A = Integer.parseInt(st.nextToken());
 		int B = Integer.parseInt(st.nextToken());
 		int V = Integer.parseInt(st.nextToken());
-		int nowHeight=0;
-		int day=1;
+		int day=(V-B)/(A-B);
 		
-		while(true) {
-			nowHeight+=A;
-			if(nowHeight>=V) {
-				break;
-			}
-			nowHeight-=B;
+		if((V-B)%(A-B)!=0) {
 			day++;
 		}
+		
 		System.out.println(day);
 	}
 }
