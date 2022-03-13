@@ -14,6 +14,7 @@ public class B2609 {
 		System.out.println(gcd);
 		System.out.println(lcm);
 		
+		sc.close();
 	}
 	public static int reFuncGcd(int a, int b) { //최대공약수를 구하는 재귀함수
 		if(b==0)

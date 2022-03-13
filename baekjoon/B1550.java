@@ -7,5 +7,6 @@ public class B1550 {
 	      Scanner sc=new Scanner(System.in);
 	      String n=sc.next();
 	      System.out.println(Integer.parseInt(n,16));     
+	      sc.close();
      }
 }

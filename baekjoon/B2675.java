@@ -18,5 +18,6 @@ public class B2675 {
 			}
 			System.out.println(P);
 		}
+		sc.close();
 	}
 }
