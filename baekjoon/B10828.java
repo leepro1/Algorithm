@@ -5,9 +5,11 @@ import java.util.Scanner;
 public class B10828 {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
+		StringBuilder sb=new StringBuilder();
 		
 		int N=sc.nextInt();
 		int[] stack=new int[N];
+		
 		int size=0;
 		
 		
@@ -23,32 +25,33 @@ public class B10828 {
 
 			case "pop":
 				if(size<=0)
-					System.out.println(-1);
+					sb.append(-1+"\n");
 				else {
-					System.out.println(stack[size-1]);
+					sb.append(stack[size-1]+"\n");
 					size--;
 				}
 				break;
 
 			case "size":
-				System.out.println(size);
+				sb.append(size+"\n");
 				break;
 
 			case "empty":
 				if(size==0)
-					System.out.println(1);
+					sb.append(1+"\n");
 				else
-					System.out.println(0);
+					sb.append(0+"\n");;
 				break;
 
 			case "top":
 				if(size==0)
-					System.out.println(-1);
+					sb.append(-1+"\n");
 				else
-					System.out.println(stack[size-1]);
+					sb.append(stack[size-1]+"\n");
 				break;
 			}
 		}
+		System.out.println(sb);
 		sc.close();
 	}
 }
