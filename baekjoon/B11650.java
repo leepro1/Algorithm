@@ -14,15 +14,16 @@ public class B11650 {
 			arr[i][1]=sc.nextInt();
 		}
 		
+		Arrays.sort(arr,(e1,e2)-> {
+			if(e1[0]==e2[0])
+				return e1[1]-e2[1];
+			else
+				return e1[0]-e2[0];
+		});
+		
 		for(int i=0;i<N;i++) {
 			System.out.println(arr[i][0]+" "+arr[i][1]);
 		}
 		sc.close();
-	}
-	public int a(int[] elm1,int[] elm2) {
-		if(elm1[0]==elm2[1])
-			return elm1[1]-elm2[1];
-		else
-			return elm1[0]-elm1[0];
 	}
 }
