@@ -1,52 +1,48 @@
 package baekjoon;
 
 import java.util.Scanner;
+import java.util.Stack;
 
 public class B4949 {
 	public static void main(String[] args) {
 		Scanner sc =new Scanner(System.in);
-		int cnt;
-	
+		Stack<Character> stack=new Stack<>();
+
 		while(true) {
 			String str=sc.nextLine();
 			if(str.equals("."))
 				break;
-			cnt=0;
-			
-			int[] arr=new int[str.length()];
 			
 			for(int i=0;i<str.length();i++) {
 				if(str.charAt(i)=='(' || str.charAt(i)=='[' ) {
-					arr[cnt]=str.charAt(i);
-					cnt++;
+					stack.push(str.charAt(i));
 				}
 				else if(str.charAt(i)==')') {
-					if(cnt==0) {
-						cnt++;
+					if(stack.size()==0) {
+						stack.push(')');
 						break;
 					}
-					else if(arr[cnt-1]!='(')
-						break;
+					else if(stack.peek().equals('('))
+						stack.pop();
 					else
-						cnt--;
+						break;
 				}
-				else if(str.charAt(i)==']' ) {
-					if(cnt==0) {
-						cnt++;
+				else if(str.charAt(i)==']') {
+					if(stack.size()==0) {
+						stack.push(']');
 						break;
 					}
-					else if(arr[cnt-1]!='[') {
-						break;
-					}
+					else if(stack.peek().equals('['))
+						stack.pop();
 					else
-						cnt--;
+						break;
 				}
 			}
-			if(cnt==0)
-				System.out.println("YES");
+			if(stack.empty())
+				System.out.println("yes");
 			else
-				System.out.println("NO");
-			
+				System.out.println("no");
+			stack.clear();
 		}
 		sc.close();
 	}
