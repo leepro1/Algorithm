@@ -17,7 +17,7 @@ public class B2108 {
 		
 		System.out.println(mean(arr));
 		System.out.println(midian(arr));
-		//System.out.println(mode(arr));
+		System.out.println(mode(arr));
 		System.out.println(diff(arr));
 		
 		sc.close();
@@ -33,34 +33,48 @@ public class B2108 {
 	}
 	
 	private static int midian(int arr[]) {
-		return arr[(arr.length-1)/2];
+		return arr[arr.length/2];
 	}
 	
-	/*	
 	private static int mode(int arr[]) {
 		int[][] cnt=new int[arr.length][2];
 		cnt[0][0]=arr[0];
 		cnt[0][1]=1;
-		int mode=0;
 		
-		for(int i=1;i<arr.length-1;i++) {
+		int temp=1; //중복인 수
+		int tempCnt=1; //중복인 수를 가진게 몇개인지
+		
+		for(int i=1;i<arr.length;i++) {
 			cnt[i][0]=arr[i];
 			cnt[i][1]=1;
-			if(arr[i]==arr[i+1]) {
-				cnt[i][1]++;
+			if(arr[i]==arr[i-1]) {
+				cnt[i][1]=cnt[i-1][1]+1;
+			}
+			
+			if(cnt[i][1]==temp)
+				tempCnt++;
+			
+			if(cnt[i][1]>temp) { 
+				temp=cnt[i][1];
+				tempCnt=1;
 			}
 		}
 		
-		for(int i=0;i<arr.length-1;i++) {
-			if(cnt[i][1]>cnt[i+1][1])
-				mode=cnt[i][0];
-			else if(cnt[i][1]==cnt[i+1][1])
-				mode=(cnt[i][1]>cnt[i+1][1]?cnt[i+1][1]:cnt[i][1]);
+		int[] mode=new int[tempCnt];
+		int j=0;
+		
+		for(int i=0;i<arr.length;i++) {
+			if(cnt[i][1]==temp) {
+				mode[j]=cnt[i][0];
+				j++;
+			}
 		}
-	
-		return mode;
+		if(mode.length==1)
+			return mode[0];
+		else
+			return mode[1];
 	}
-*/	
+	
 	private static int diff(int arr[]) {
 		return arr[arr.length-1]-arr[0];
 	}
