@@ -24,12 +24,12 @@ public class B2108 {
 	}
 	
 	private static int mean(int[] arr) {
-		float sum=0;
+		double sum=0.0;
 		
 		for(int i=0;i<arr.length;i++)
 			sum+=arr[i];
 		
-		return Math.round(sum/arr.length);
+		return (int)(Math.round(sum/arr.length));
 	}
 	
 	private static int midian(int arr[]) {
