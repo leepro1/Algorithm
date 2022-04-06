@@ -7,21 +7,20 @@ public class B1463 {
 		Scanner sc=new Scanner(System.in);
 
 		int N=sc.nextInt();		
-		int cnt=0;
+		int[] dp=new int[N+1];
+		dp[0]=0;
+		dp[1]=0;
 		
-		while(N!=1) {
-			if(N%3==0) {
-				N/=3;
-				cnt++;
+		for(int i=2;i<=N;i++) {
+			dp[i]=dp[i-1]+1;
+			if(i%2==0) {
+				dp[i]=Math.min(dp[i],dp[i/2]+1);
 			}
-			
-			else {
-				N--;
-				cnt++;
+			if(i%3==0) {
+				dp[i]=Math.min(dp[i],dp[i/3]+1);
 			}
 		}
-		
-		System.out.println(cnt);
+		System.out.println(dp[N]);
 		sc.close();
 	}
 }
