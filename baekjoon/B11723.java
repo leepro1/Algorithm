@@ -10,6 +10,7 @@ public class B11723 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st=new StringTokenizer(br.readLine());
+		StringBuilder sb=new StringBuilder();
 		
 		int M=Integer.parseInt(st.nextToken());
 		
@@ -40,10 +41,10 @@ public class B11723 {
 			case "check":
 				num=Integer.parseInt(st.nextToken())-1;
 				if(arr[num]==true) {
-					System.out.println(1);
+					sb.append("1\n");
 				}
 				else
-					System.out.println(0);
+					sb.append("0\n");
 				break;
 
 			case "toggle":
@@ -65,5 +66,6 @@ public class B11723 {
 				break;
 			}
 		}
+		System.out.println(sb);
 	}
 }
