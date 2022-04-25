@@ -1,5 +1,5 @@
 package baekjoon;
-
+//중복인 수가 갈릴 수 있으니 중간 이분탐색 외 의 다른 방식 : 중복 원소의 길이
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,31 +21,47 @@ public class B10816 {
 		}
 		
 		Arrays.sort(arr);
+		
+		st=new StringTokenizer(br.readLine());
 		int M=Integer.parseInt(st.nextToken());
 		
 		st=new StringTokenizer(br.readLine());
 		while(M-->0) {
 			int temp=Integer.parseInt(st.nextToken());
+			sb.append(upperBound(arr, temp) - lowerBound(arr, temp)).append(" ");
 		}
-		
+		System.out.println(sb);
 	}
-	public static int binarySearch(int[] arr, int target){ 
-		int start=0; 
-		int end=arr.length-1; 
-		int mid=(end+start)/2; 
-
-		while(end-start>= 0){ 
-			if(arr[mid]>target) 
-				end=mid-1;
-
-			else if(arr[mid]<target){
-				start= mid+1; 
-			}
-			else{
-				return mid; 
-			} 
-			mid=(end+start)/2; 
+	public static int lowerBound(int[] arr, int target) {
+		int low = 0; 
+		int hi = arr.length; 
+ 
+		while (low < hi) {
+			int mid=(low + hi)/2;
+ 
+			if (target <= arr[mid])
+				hi=mid;
+			
+			else
+				low=mid + 1;
 		}
-		return -1;
+
+		return low;
+	}
+ 
+	public static int upperBound(int[] arr, int target) {
+		int low = 0; 
+		int hi = arr.length; 
+ 
+		while (low < hi) {
+			int mid=(low + hi)/2;
+
+			if (target < arr[mid])
+				hi=mid;
+			
+			else 
+				low=mid + 1;
+		}
+		return low;
 	}
 }
