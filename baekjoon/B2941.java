@@ -11,22 +11,24 @@ public class B2941 {
 		
 		int start=0;
 		int cnt=0;
+		int length=str.length();
 		
-		while(start<str.length()) {
-			if(str.charAt(start)=='c') {
-				if(start<=str.length()){
-					if(str.charAt(start+1)=='=')
+		while(start<length) {
+			
+			char temp=str.charAt(start);
+			
+			if(temp=='c') {
+				if(start<length-1){
+					if(str.charAt(start+1)=='=' || str.charAt(start+1)=='-')
 						start++;
 				}
-				else if(str.charAt(start+1)=='-')
-					start++;
 			}
 				
-			else if(str.charAt(start)=='d') {
-				if(start<=str.length()){
+			else if(temp=='d') {
+				if(start<length-1){
 					if(str.charAt(start+1) == 'z') {
-						if(start<=str.length()-1) {
-							if(str.charAt(start+2) =='=')
+						if(start<length-2) {
+							if(str.charAt(start+2)=='=')
 								start+=2;
 						}
 					}
@@ -35,33 +37,34 @@ public class B2941 {
 				}
 			}
 					
-			else if(str.charAt(start)=='l') {
-				if(start<=str.length()){
+			else if(temp=='l') {
+				if(start<length-1){
 					if(str.charAt(start+1)=='j')
 						start++;
 				}	
 			}
 				
-			else if(str.charAt(start)=='n') {
-				if(start<=str.length()){
+			else if(temp=='n') {
+				if(start<length-1){
 					if(str.charAt(start+1)=='j')
 						start++;
 				}
 			}
 				
-			else if(str.charAt(start)=='s') {
-				if(start<=str.length()){
+			else if(temp=='s') {
+				if(start<length-1){
 					if(str.charAt(start+1)=='=')
 						start++;
 				}
 			}
 				
-			else if(str.charAt(start)=='z') {
-				if(start<=str.length()){
+			else if(temp=='z') {
+				if(start<length-1){
 					if(str.charAt(start+1)=='=')
 						start++;
 				}
 			}
+			start++;
 			cnt++;
 		}
 		System.out.println(cnt);
