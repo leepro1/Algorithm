@@ -29,5 +29,12 @@ public class BubbleSort {
 			arr[i]=Integer.parseInt(br.readLine());
 		}
 		bubbleSort(arr,N);
+		
+		StringBuffer sb = new StringBuffer();
+
+		for(int i=0;i<N;i++) {
+			sb.append(arr[i]).append("\n");
+		}
+		System.out.println(sb);
 	}
 }

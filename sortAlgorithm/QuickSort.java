@@ -44,5 +44,12 @@ public class QuickSort {
 			arr[i]=Integer.parseInt(br.readLine());
 		}
 		quickSort(arr,0,N-1);
+		
+		StringBuffer sb = new StringBuffer();
+
+		for(int i=0;i<N;i++) {
+			sb.append(arr[i]).append("\n");
+		}
+		System.out.println(sb);
 	}
 }

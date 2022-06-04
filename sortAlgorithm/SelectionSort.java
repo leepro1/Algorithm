@@ -32,5 +32,12 @@ public class SelectionSort {
 			arr[i]=Integer.parseInt(br.readLine());
 		}
 		selectionSort(arr);
+		
+		StringBuffer sb = new StringBuffer();
+
+		for(int i=0;i<N;i++) {
+			sb.append(arr[i]).append("\n");
+		}
+		System.out.println(sb);
 	}
 }

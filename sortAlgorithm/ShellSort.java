@@ -26,5 +26,12 @@ public class ShellSort {
 			arr[i]=Integer.parseInt(br.readLine());
 		}
 		shellSort(arr);
+		
+		StringBuffer sb = new StringBuffer();
+
+		for(int i=0;i<N;i++) {
+			sb.append(arr[i]).append("\n");
+		}
+		System.out.println(sb);
 	}
 }
