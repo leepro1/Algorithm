@@ -1,12 +1,11 @@
+//https://www.acmicpc.net/problem/9375
 package baekjoon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 public class B9375 {
@@ -15,38 +14,42 @@ public class B9375 {
 		StringTokenizer st;
 		
 		int T=Integer.parseInt(br.readLine());
-		Map<String,String> map=new HashMap<>();
+		HashMap<String,String> map=new HashMap<>();
 		
 		for(int i=0;i<T;i++) {
-			int answerCnt=1;
 			int n=Integer.parseInt(br.readLine());
+			ArrayList<String> valueArray=new ArrayList<>();
+			ArrayList<Integer> cntArray=new ArrayList<>();
+			
 			for(int j=0;j<n;j++) {
 				st=new StringTokenizer(br.readLine());
-				map.put(st.nextToken(), st.nextToken());
-			}
-			List<Map.Entry<String, String>> entryList = new LinkedList<>(map.entrySet());
-			entryList.sort(Map.Entry.comparingByValue());
-			int tempCnt=1;
-			boolean flag=false;
-			
-			String str1=null;
-			String str2=null;
-			
-			for(Map.Entry<String, String> entry : entryList){
-				if(flag==false) {
-					str1=entry.getValue();
-					flag=true;
+				String key=st.nextToken();
+				String value=st.nextToken();
+				if(j==0) {
+					map.put(key, value);
+					valueArray.add(value);
+					cntArray.add(1);
 				}
-				str2=entry.getValue();
-				if(!str1.equals(str2)) {
-					answerCnt*=tempCnt;
-					tempCnt=1;
-					flag=false;
+				else {
+					if(map.containsValue(value)) {
+						int index=valueArray.indexOf(value);
+						cntArray.set(index, cntArray.get(index)+1);
+					}
+					else {
+						valueArray.add(value);
+						cntArray.add(1);
+					}
+					map.put(key, value);
 				}
-				tempCnt++;
 			}
-			System.out.println(answerCnt);
+			int totalCase=1;
+			
+			for(int k=0;k<cntArray.size();k++) {
+				totalCase*=cntArray.get(k)+1;
+			}
+			System.out.println(totalCase-1);
 			map.clear();
 		}
 	}
+
 }
