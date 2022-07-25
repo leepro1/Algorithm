@@ -12,11 +12,11 @@ public class B11652 {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		int N=Integer.parseInt(br.readLine());
 		
-		HashMap<Integer, Integer> map=new HashMap<>();
-		int max=0;
+		HashMap<Long, Integer> map=new HashMap<>();
+		int max=1;
 		
 		while(N-->0) {
-			int inputNum=Integer.parseInt(br.readLine());
+			long inputNum=Long.parseLong(br.readLine());
 			
 			if(!map.containsKey(inputNum)) {
 				map.put(inputNum, 1);
@@ -29,13 +29,12 @@ public class B11652 {
 			}
 		}
 		
-		TreeMap<Integer,Integer> sortedMap = new TreeMap<>(map);
+		TreeMap<Long,Integer> sortedMap = new TreeMap<>(map);
 		
-		for(Integer keys : sortedMap.keySet()){
+		for(Long keys : sortedMap.keySet()){
 			if(max==sortedMap.get(keys)){
 				System.out.println(keys);
 				break;
-			
 			}
 		}
 	}
