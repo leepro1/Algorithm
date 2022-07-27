@@ -9,24 +9,27 @@ public class B1541 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		
-		String str=br.readLine()+'.';
+		String str=br.readLine();
+		StringBuffer sb=new StringBuffer();
 		
 		boolean minusFlag=false;
 		int sum=0;
-		int tempIndex=0;
 		
 		for(int i=0;i<str.length();i++) {
+			if(str.charAt(i)!='-' && str.charAt(i)!='+') {
+				sb.append(str.charAt(i));
+			}
 			if(i+1==str.length() || str.charAt(i)=='-' || str.charAt(i)=='+') {
-				if(str.charAt(i)=='-') {
-					minusFlag=true;	
+				if(minusFlag) {
+					sum-=Integer.parseInt(sb.toString());
 				}
-				if(minusFlag==true) {
-					sum-=Integer.parseInt(str.substring(tempIndex,i));
+				else {
+					sum+=Integer.parseInt(sb.toString());
 				}
-				if(minusFlag==false) {
-					sum+=Integer.parseInt(str.substring(tempIndex,i));	
-				}	
-				tempIndex=i+1;
+				sb.setLength(0);
+			}
+			if(str.charAt(i)=='-') {
+				minusFlag=true;
 			}
 		}
 		System.out.println(sum);
