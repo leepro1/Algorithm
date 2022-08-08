@@ -30,7 +30,7 @@ public class B1010 {
 			int a=Integer.parseInt(st.nextToken());
 			int b=Integer.parseInt(st.nextToken());
 			
-			sb.append(dp[a][b]).append("\n");
+			sb.append(dp[b][a]).append("\n");
 		}
 		
 		System.out.println(sb);
