@@ -9,22 +9,18 @@ public class B1475 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		
-		int N=Integer.parseInt(br.readLine());
+		String N=br.readLine();
 		
 		int[] setNum=new int[10];
 		
-		while(N>0){
-			setNum[N%10]++;
-			N/=10;
+		
+		for(int i=0;i<N.length();i++) {
+			setNum[N.charAt(i) - '0']++;
 		}
 		
-		int sixNine=(setNum[6]+setNum[9])/2;
-		if(sixNine%2==0)
-			setNum[6]=sixNine;
-		else
-			setNum[6]=sixNine+1;
-		
+		setNum[6]=setNum[6]+setNum[9];
 		setNum[9]=0;
+		setNum[6]=setNum[6]/2+setNum[6]%2;
 		
 		int max=0;
 		
