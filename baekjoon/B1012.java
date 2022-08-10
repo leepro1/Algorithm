@@ -25,8 +25,8 @@ public class B1012 {
 			N=Integer.parseInt(st.nextToken());
 			K=Integer.parseInt(st.nextToken());
 			
-			matrixGraph=new int[N][K];
-			visited=new boolean[N][K];
+			matrixGraph=new int[M][N];
+			visited=new boolean[M][N];
 			
 			while(K-->0) {
 				st=new StringTokenizer(br.readLine());
