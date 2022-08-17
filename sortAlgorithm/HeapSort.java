@@ -18,20 +18,20 @@ public class HeapSort {
 		}
 	}
 	public static void heapify(int[] arr, int n, int i) {
-        int p = i;
-        int l = i * 2 + 1;
-        int r = i * 2 + 2;
-        if (l < n && arr[p] < arr[l])
-            p = l;
+		int p = i;
+		int l = i * 2 + 1;
+		int r = i * 2 + 2;
+		if (l < n && arr[p] < arr[l])
+			p = l;
 
-        if (r < n && arr[p] < arr[r])
-            p = r;
+		if (r < n && arr[p] < arr[r])
+			p = r;
 
-        if (i != p) {
-            swap(arr, p, i);
-            heapify(arr, n, p);
-        }
-    }
+		if (i != p) {
+			swap(arr, p, i);
+			heapify(arr, n, p);
+		}
+	}
 	
 	public static void swap(int[] arr,int i,int j) {
 		int temp=arr[i];
