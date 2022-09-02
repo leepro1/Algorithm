@@ -4,12 +4,14 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class B11725 {
 	private static int[] treeParent;
-	private static int[][] noParent;
-	private static int cnt=0;
+	private static LinkedList<int[]> noParent=new LinkedList<int[]>();
+	private static boolean flag=false;
+	private static boolean removeFlag=false;
 	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
@@ -17,7 +19,6 @@ public class B11725 {
 		
 		int N=Integer.parseInt(br.readLine());
 		treeParent=new int[N+1];
-		noParent=new int[N+1][1];
 		
 		while(N-->1) {
 			StringTokenizer st=new StringTokenizer(br.readLine());
@@ -26,12 +27,23 @@ public class B11725 {
 			
 			findParent(n1,n2);
 		}
+	
+		flag=true;
+		
+		for(int i=0;!noParent.isEmpty();i++) {
+			findParent(noParent.get(i)[0],noParent.get(i)[1]);
+			
+			if(removeFlag==true) {
+				noParent.remove(i);
+				removeFlag=false;
+				i--;
+			}
+			if(i==noParent.size()) i=0;
+			
+		}
 		
 		for(int i=2;i<treeParent.length;i++) {
 			sb.append(treeParent[i]+"\n");
-		}
-		for(int i=0;i<cnt;i++) {
-			findParent(noParent[i][0],noParent[i][1]);
 		}
 		
 		System.out.println(sb);
@@ -40,16 +52,16 @@ public class B11725 {
 	private static void findParent(int a,int b) {
 		if(a==1 || treeParent[a]!=0) {
 			treeParent[b]=a;
+			if(flag==true) removeFlag=true;
 		}
 		
-		if(b==1 || treeParent[b]!=0) {
+		else if(b==1 || treeParent[b]!=0) {
 			treeParent[a]=b;
+			if(flag==true) removeFlag=true;
 		}
 		
-		if(treeParent[b]!=0 && treeParent[a]!=0) {
-			noParent[cnt][0]=a;
-			noParent[cnt][1]=b;			
-			cnt++;
+		else if(flag==false && treeParent[b]==0 && treeParent[a]==0) {
+			noParent.add(new int[] {a,b});
 		}
 	}
 }
