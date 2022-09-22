@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 public class B15654 {
 	public static int[] arr;
 	public static int[] numArr;
+	public static boolean[] visited;
 	public static int N,M;
 	public static StringBuilder sb = new StringBuilder();
 	
@@ -22,6 +23,7 @@ public class B15654 {
 
 		arr = new int[M];
 		numArr = new int[N];
+		visited = new boolean[N];
 		
 		st=new StringTokenizer(br.readLine());
 		for(int i=0;i<N;i++) {
@@ -44,8 +46,12 @@ public class B15654 {
 		}
 		
 		for(int i=0;i<N;i++) {
-			arr[depth]=numArr[i];
-			dfs(i+1, depth+1);
+			if(!visited[i]) {
+				visited[i]=true;
+				arr[depth]=numArr[i];
+				dfs(i+1, depth+1);
+				visited[i]=false;
+			}
 		}
 	}
 }
