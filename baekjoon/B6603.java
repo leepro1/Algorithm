@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class B6603 {
-	private static StringBuilder sb;
+	private static StringBuilder sb= new StringBuilder();;
 	private static int[] num;
 	private static boolean[] visited;
 	private static int N;
@@ -43,7 +43,6 @@ public class B6603 {
 				}
 			}
 			sb.append("\n");
-			return;
 		}
 		
 		
