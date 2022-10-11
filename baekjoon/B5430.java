@@ -25,6 +25,7 @@ public class B5430 {
 			}
 
 			Boolean reverseFlag = false; // 뒤에서부터 진행될 때 true
+			String str = "";
 
 			for (int i = 0; i < func.length(); i++) {
 				if (func.charAt(i) == 'R') { // R일때
@@ -34,7 +35,7 @@ public class B5430 {
 						reverseFlag = true;
 				} else { // D일때
 					if (deque.isEmpty()) {
-						sb.append("error"); // StringBuilder 비우기 : sb.setLength(0)
+						str = "error"; // StringBuilder 비우기 : sb.setLength(0)
 						break;
 					}
 
@@ -46,16 +47,18 @@ public class B5430 {
 				}
 			}
 
-			StringBuilder tempSb = new StringBuilder("[");
-	        while (!deque.isEmpty()) {
-	            sb.append(reverseFlag ? deque.pollLast() : deque.poll());
-	            if (deque.size() != 0)
-	            	tempSb.append(',');
-	        }
-	        tempSb.append(']');
-	        
-	        sb.append(tempSb+"\n");
-			deque.clear();
+			if (!str.equals("error")) {
+				sb.append("[");
+				while (!deque.isEmpty()) {
+					sb.append(reverseFlag ? deque.pollLast() : deque.poll());
+					if (deque.size() != 0)
+						sb.append(',');
+				}
+				sb.append("]\n");
+				deque.clear();
+			}
+			else
+				sb.append(str+"\n");
 		}
 		System.out.println(sb);
 	}
