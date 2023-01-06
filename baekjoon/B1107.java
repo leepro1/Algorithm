@@ -15,14 +15,24 @@ public class B1107 {
 		int M = Integer.parseInt(br.readLine()); // 고장난 숫자버튼 수
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
+		brokenNum = new boolean[10];
+
 		while (st.hasMoreTokens()) {
 			brokenNum[Integer.parseInt(st.nextToken())] = true;
 		}
 
 		int cnt = Math.abs(N - 100);
 
-		if (100 != N)
-			cnt = +check(N);
+		for (int i = 0; i <= 1000000; i++) {
+			int tempLen = check(i);
+
+			if (tempLen > 0) {
+				int tempCnt = Math.abs(N - i);
+				cnt = Math.min(cnt, tempCnt + tempLen);
+			}
+		}
+
+		System.out.println(cnt);
 	}
 
 	private static int check(int n) {
@@ -34,12 +44,13 @@ public class B1107 {
 			}
 		}
 		int len = 0;
+
 		while (n > 0) {
 			if (brokenNum[n % 10]) {
 				return 0;
 			}
 			n /= 10;
-			len += 1;
+			len++;
 		}
 		return len;
 	}

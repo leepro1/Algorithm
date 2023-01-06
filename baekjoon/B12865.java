@@ -17,7 +17,7 @@ public class B12865 {
 		int[][] arr = new int[n + 1][2];
 		int[][] dp = new int[n + 1][k + 1];
 
-		for (int i = 1; i < n; i++) {
+		for (int i = 1; i <= n; i++) {
 			st = new StringTokenizer(br.readLine());
 
 			arr[i][0] = Integer.parseInt(st.nextToken());
