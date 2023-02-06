@@ -2,30 +2,37 @@
 /*
  * 영역 구하기 - 그래프
  * 직사각형을 제외한 곳에 BFS를 하여 직사각형의 개수(넓이)를 구한다.
+ * 좌표평면으로 보자면 1사분면에 해당하는 것처럼 좌표(위치)를 표시하니 이점을 유의하자
  */
 package baekjoon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class B2583 {
+	private static boolean[][] map;
+	private static int[] dx = { -1, 1, 0, 0 }; // 상하좌우 검사를 위한 배열
+	private static int[] dy = { 0, 0, -1, 1 }; // 상하좌우 검사를 위한 배열
+	private static Queue<int[]> queue = new LinkedList<int[]>(); // bfs로 풀기 위한 queue
+	private static int M, N, K;
+	private static int area = 1; // 넓이를 셀 변수
+	private static int cnt = 0; // 영역의 개수를 셀 변수
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int M = Integer.parseInt(st.nextToken());
-		int N = Integer.parseInt(st.nextToken());
-		int K = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		N = Integer.parseInt(st.nextToken());
+		K = Integer.parseInt(st.nextToken());
 
-		int[] dx = { -1, 1, 0, 0 }; // 상하좌우 검사를 위한 배열
-		int[] dy = { 0, 0, -1, 1 }; // 상하좌우 검사를 위한 배열
-
-		boolean[][] visited = new boolean[M][N];
-		int[][] map = new int[M][N];
+		map = new boolean[M][N];
 
 		for (int i = 0; i < K; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -35,21 +42,34 @@ public class B2583 {
 			int y2 = Integer.parseInt(st.nextToken());
 			for (int y = y1; y < y2; y++) {
 				for (int x = x1; x < x2; x++) {
-					map[y][x] = 1;
+					map[y][x] = true; // 벽을 방문한 것으로 표시
 				}
 			}
 		}
-		Queue<int[]> queue = new LinkedList<int[]>(); // bfs로 풀기 위한 queue
 
-		for (int i = 0; i < N; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < M; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-				if (map[i][j] == 1) {
+		ArrayList<Integer> cntArray = new ArrayList<>();
+
+		for (int i = 0; i < M; i++) {
+			for (int j = 0; j < N; j++) {
+				if (!map[i][j]) {
 					queue.offer(new int[] { i, j });
+					map[i][j] = true;
+					cntArray.add(bfs());
+					area = 1;
+					cnt++;
 				}
 			}
 		}
+		
+		System.out.println(cnt);
+		Collections.sort(cntArray);
+
+		for (Integer i : cntArray) {
+			System.out.print(i + " ");
+		}
+	}
+
+	private static int bfs() {
 		while (!queue.isEmpty()) {
 			int[] temp = queue.poll();
 
@@ -57,14 +77,15 @@ public class B2583 {
 				int nextX = temp[0] + dx[i];
 				int nextY = temp[1] + dy[i];
 
-				if (nextX < 0 || nextY < 0 || nextX >= N || nextY >= M)
+				if (nextX < 0 || nextY < 0 || nextX >= M || nextY >= N)
 					continue;
-				if (map[nextX][nextY] == 0) {
-					map[nextX][nextY] = map[temp[0]][temp[1]] + 1;
+				if (!map[nextX][nextY]) {
+					map[nextX][nextY] = true;
 					queue.offer(new int[] { nextX, nextY });
+					area++;
 				}
 			}
 		}
-
+		return area;
 	}
 }
