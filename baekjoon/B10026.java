@@ -19,51 +19,66 @@ public class B10026 {
 	static private boolean[][] visited2;
 	static private int[][] color1;
 	static private int[][] color2;
-	static private int[] dx = {-1,1,0,0};
-	static private int[] dy = {0,0,-1,1};
+	static private int[] dx = { -1, 1, 0, 0 };
+	static private int[] dy = { 0, 0, -1, 1 };
 	static private int n;
 	static private Queue<int[]> queue = new LinkedList<int[]>(); // bfs로 풀기 위한 queue
-	
+
 	public static void main(String[] args) throws IOException {
-		BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
-		n=Integer.parseInt(br.readLine());
-		
-		visited1=new boolean[n][n]; //정상 버전
-		visited2=new boolean[n][n]; //적록색약 버전
-		color1=new int[n][n]; //정상 버전
-		color2=new int[n][n]; //적록색약 버전
-		
-		//r=1, g=2, b=3 으로 표시하고 적록색약의 경우 r=g=1로한다.
-		for(int i=0;i<n;i++) {
-			String str=br.readLine();
-			for(int j=0;j<n;j++) {
-				if(str.charAt(j)=='R') {
-					color1[i][j]=1;
-					color2[i][j]=1;
-				}
-				else if(str.charAt(j)=='G') {
-					color1[i][j]=2;
-					color2[i][j]=1;
-				}
-				else {
-					color1[i][j]=3;
-					color2[i][j]=3;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		n = Integer.parseInt(br.readLine());
+
+		visited1 = new boolean[n][n]; // 정상 버전
+		visited2 = new boolean[n][n]; // 적록색약 버전
+		color1 = new int[n][n]; // 정상 버전
+		color2 = new int[n][n]; // 적록색약 버전
+
+		// r=1, g=2, b=3 으로 표시하고 적록색약의 경우 r=g=1로한다.
+		for (int i = 0; i < n; i++) {
+			String str = br.readLine();
+			for (int j = 0; j < n; j++) {
+				if (str.charAt(j) == 'R') {
+					color1[i][j] = 1;
+					color2[i][j] = 1;
+				} else if (str.charAt(j) == 'G') {
+					color1[i][j] = 2;
+					color2[i][j] = 1;
+				} else {
+					color1[i][j] = 3;
+					color2[i][j] = 3;
 				}
 			}
 		}
-		
-		for(int i=0;i<n;i++) {
-			for(int j=0;j<n;j++) {
-				if(!visited1[i][j]) {
-					queue.offer(new int[] {i,j});
-					visited1[i][j]=true;
-					bfs1();	
+
+		// 정상 버전
+		int cnt1 = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (!visited1[i][j]) {
+					queue.offer(new int[] { i, j });
+					visited1[i][j] = true;
+					bfs1();
+					cnt1++;
 				}
 			}
 		}
-		
+
+		// 적록색약 버전
+		int cnt2 = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (!visited2[i][j]) {
+					queue.offer(new int[] { i, j });
+					visited2[i][j] = true;
+					bfs2();
+					cnt2++;
+				}
+			}
+		}
+
+		System.out.println(cnt1 + " " + cnt2);
 	}
-	
+
 	private static void bfs1() {
 		while (!queue.isEmpty()) {
 			int[] temp = queue.poll();
@@ -75,7 +90,25 @@ public class B10026 {
 				if (nextX < 0 || nextY < 0 || nextX >= n || nextY >= n)
 					continue;
 				if (color1[nextX][nextY] == color1[temp[0]][temp[1]] && !visited1[nextX][nextY]) {
-					visited1[nextX][nextY]=true;
+					visited1[nextX][nextY] = true;
+					queue.offer(new int[] { nextX, nextY });
+				}
+			}
+		}
+	}
+
+	private static void bfs2() {
+		while (!queue.isEmpty()) {
+			int[] temp = queue.poll();
+
+			for (int i = 0; i < 4; i++) {
+				int nextX = temp[0] + dx[i];
+				int nextY = temp[1] + dy[i];
+
+				if (nextX < 0 || nextY < 0 || nextX >= n || nextY >= n)
+					continue;
+				if (color2[nextX][nextY] == color2[temp[0]][temp[1]] && !visited2[nextX][nextY]) {
+					visited2[nextX][nextY] = true;
 					queue.offer(new int[] { nextX, nextY });
 				}
 			}
