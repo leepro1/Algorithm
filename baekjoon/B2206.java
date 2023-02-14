@@ -3,7 +3,12 @@
  * 벽 부수고 이동하기 - BFS
  * (1,1)에서 출발하여 (N,M)으로 이동하는 문제, 시작하는 칸과 끝나는 칸, 부순 벽도 count한다.
  * 첫 시도 -> 목표지점까지 갈 때 한개의 벽은 탐색할 수 있도록 한다.
- * 이 때 벽을 부순 경우 여부처리를 queue에 넣는 배열에 2번 index로 처리하겠다.
+ * 			이 때 벽을 부순 경우 여부처리를 queue에 넣는 배열에 2번 index로 처리하겠다.
+ * 			map배열에 바로 count를 하니 방문여부 체크가 모호해져서 queue에 넣은 배열에 3번 index처리하겠다. -> 메모리 초과로 실패
+ * 
+ * 두번째 시도 -> 메모리 초과가 큐에 넣는 배열때문인 것 같아 전부 int로 처리한 배열을 새로운 클래스로 정의해주자 -> 첫 시도와는 count와 벽을 부순여부 확인 index 자리를 바꾸었다.
+ * 			  입력받는 map도 boolean형태로 바꾸어주고 visited배열로 방문여부처리도 해주자.
+ * 
  */
 package baekjoon;
 
@@ -15,6 +20,20 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class B2206 {
+	private static class Location {
+		int x;
+		int y;
+		int cnt;
+		boolean breakWall;
+
+		public Location(int x, int y, int cnt, boolean breakWall) {
+			this.x = x;
+			this.y = y;
+			this.cnt = cnt;
+			this.breakWall = breakWall; // 부술 수 없다면 true
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -22,15 +41,15 @@ public class B2206 {
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 
-		int[][] map = new int[N][M];
+		boolean[][] map = new boolean[N][M];
 
 		for (int i = 0; i < N; i++) {
 			String str = br.readLine();
 			for (int j = 0; j < M; j++) {
-				if (str.charAt(j) == '1') // 탐색을 하며 cnt를 하기 쉽게 하기위해 0과 1을 바꿔주었다. -> 벽이면 0 아니면 1
-					map[i][j] = 0;
+				if (str.charAt(j) == '1') // 벽이면 false 아니면 true
+					map[i][j] = false;
 				else
-					map[i][j] = 1;
+					map[i][j] = true;
 			}
 		}
 
@@ -39,38 +58,43 @@ public class B2206 {
 			return;
 		}
 
-		Queue<int[]> queue = new LinkedList<>();
-		queue.offer(new int[] { 0, 0, 0, 1 }); // 2번 index가 -1이면 벽을 부술 수 없다, 0이면 부술 수 있다. 3번 index는 count이다.
+		boolean[][] visited = new boolean[N][M];
+
+		Queue<Location> queue = new LinkedList<>();
+		queue.offer(new Location(0, 0, 1, false));
+		visited[0][0] = true;
 
 		int[] dx = { -1, 1, 0, 0 };
 		int[] dy = { 0, 0, -1, 1 };
 
 		while (!queue.isEmpty()) {
-			int temp[] = queue.poll();
+			Location temp = queue.poll();
 
-			if (temp[0] == N - 1 && temp[1] == M - 1) { // 종료조건
-				System.out.println(temp[3]);
+			if (temp.x == N - 1 && temp.y == M - 1) { // 종료조건
+				System.out.println(temp.cnt);
 				return;
 			}
 
 			for (int i = 0; i < 4; i++) {
-				int nextX = temp[0] + dx[i];
-				int nextY = temp[1] + dy[i];
+				int nextX = temp.x + dx[i];
+				int nextY = temp.y + dy[i];
 
 				if (nextX < 0 || nextY < 0 || nextX >= N || nextY >= M)
 					continue;
 
-				if (map[nextX][nextY] == 0 && temp[2] == -1) // 만약 벽을 만났는데 부술 수 없다면 pass
+				if (map[nextX][nextY] == false && temp.breakWall == true) // 만약 벽을 만났는데 부술 수 없다면 pass
 					continue;
 
-				if (map[nextX][nextY] == 0) { // 벽을 만났을 때
-					if (temp[2] == 0) {// 벽을 부술 기회가 있을 때 부순다.
-						queue.offer(new int[] { nextX, nextY, -1, temp[3] + 1 });
+				if (map[nextX][nextY] == false) { // 벽을 만났을 때
+					if (temp.breakWall == false) {// 벽을 부술 기회가 있을 때 부순다.
+						queue.offer(new Location(nextX, nextY, temp.cnt + 1, true));
+						visited[nextX][nextY] = true;
 					}
 				}
 
-				else if (map[nextX][nextY] == 1 && nextX + nextY != 0) { // 벽이 아니고 출발지가 아닐 때
-					queue.offer(new int[] { nextX, nextY, temp[2], temp[3] + 1 });
+				else if (map[nextX][nextY] == true && nextX + nextY != 0) { // 벽이 아니고 출발지가 아닐 때
+					queue.offer(new Location(nextX, nextY, temp.cnt + 1, temp.breakWall));
+					visited[nextX][nextY] = true;
 				}
 			}
 		}
