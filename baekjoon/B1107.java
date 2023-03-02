@@ -13,15 +13,18 @@ public class B1107 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
 		int M = Integer.parseInt(br.readLine()); // 고장난 숫자버튼 수
-		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		brokenNum = new boolean[10];
 
-		while (st.hasMoreTokens()) {
-			brokenNum[Integer.parseInt(st.nextToken())] = true;
+		if (M > 0) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+
+			while (M-- > 0) {
+				brokenNum[Integer.parseInt(st.nextToken())] = true;
+			}
 		}
 
-		int cnt = Math.abs(N - 100);
+		int cnt = Math.abs(N - 100); // 최초에 100번을 보고 있으므로
 
 		for (int i = 0; i <= 1000000; i++) {
 			int tempLen = check(i);

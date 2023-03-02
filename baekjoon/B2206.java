@@ -9,6 +9,10 @@
  * 두번째 시도 -> 메모리 초과가 큐에 넣는 배열때문인 것 같아 전부 int로 처리한 배열을 새로운 클래스로 정의해주자 -> 첫 시도와는 count와 벽을 부순여부 확인 index 자리를 바꾸었다.
  * 			  입력받는 map도 boolean형태로 바꾸어주고 visited배열로 방문여부처리도 해주자.
  * 
+ * 세번째 시도 -> 메모리문제만 해결하면 맞을 줄 알았더니 틀렸다. 
+ * 			  틀린점) 목적지까지 가는 여러 방법 중 벽을부셔서 먼저 간 뒤 visited를 체크할 경우 벽을 부수지 않고 온 경우와 겹치게 된다. 
+ * 					예를 들어 1번 방법에서 갔던 길이면 visited 배열에 이미 체크되어있는데 이를 고려하지 않았다.
+ * 					visited배열을 벽을 부셨는지에 여부에 따라 한번 더 나누어 주겠다.
  */
 package baekjoon;
 
@@ -58,11 +62,10 @@ public class B2206 {
 			return;
 		}
 
-		boolean[][] visited = new boolean[N][M];
+		boolean[][][] visited = new boolean[N][M][2];
 
 		Queue<Location> queue = new LinkedList<>();
 		queue.offer(new Location(0, 0, 1, false));
-		visited[0][0] = true;
 
 		int[] dx = { -1, 1, 0, 0 };
 		int[] dy = { 0, 0, -1, 1 };
@@ -88,13 +91,19 @@ public class B2206 {
 				if (map[nextX][nextY] == false) { // 벽을 만났을 때
 					if (temp.breakWall == false) {// 벽을 부술 기회가 있을 때 부순다.
 						queue.offer(new Location(nextX, nextY, temp.cnt + 1, true));
-						visited[nextX][nextY] = true;
+						visited[nextX][nextY][1] = true;
 					}
 				}
 
-				else if (map[nextX][nextY] == true && nextX + nextY != 0) { // 벽이 아니고 출발지가 아닐 때
-					queue.offer(new Location(nextX, nextY, temp.cnt + 1, temp.breakWall));
-					visited[nextX][nextY] = true;
+				else if (map[nextX][nextY] == true) { // 벽이 아닐 때
+					if (!visited[nextX][nextY][0] && temp.breakWall == false) {
+						queue.offer(new Location(nextX, nextY, temp.cnt + 1, temp.breakWall));
+						visited[nextX][nextY][0] = true;
+					} else if (!visited[nextX][nextY][1] && temp.breakWall == true) {
+						queue.offer(new Location(nextX, nextY, temp.cnt + 1, temp.breakWall));
+						visited[nextX][nextY][1] = true;
+
+					}
 				}
 			}
 		}
