@@ -45,21 +45,21 @@ public class S12712 {
 		int sum = 0;
 
 		// 가로방향
-		for (int i = x - (m - 1); i <= x + (m + 1); i++) {
+		for (int i = y - (m - 1); i <= y + (m - 1); i++) {
 			if (i >= n) {
 				break;
 			}
-			if (i < 0 || i >= n) {
+			if (i < 0) {
 				continue;
 			}
 			sum += arr[x][i];
 		}
 		// 세로방향
-		for (int i = x - (m - 1); i <= x + (m + 1); i++) {
+		for (int i = x - (m - 1); i <= x + (m - 1); i++) {
 			if (i >= n) {
 				break;
 			}
-			if (i < 0 || i >= n) {
+			if (i < 0) {
 				continue;
 			}
 			sum += arr[i][y];
@@ -76,7 +76,7 @@ public class S12712 {
 		int j = y - m;
 
 		// 우하향
-		while (true) {
+		while (i < x + m - 1 && j < y + m - 1) {
 			i++;
 			j++;
 
@@ -93,14 +93,14 @@ public class S12712 {
 		j = y - m;
 
 		// 우상향
-		while (true) {
+		while (i >= x - m + 1 && j < y + m - 1) {
 			i--;
 			j++;
 
-			if (i < n || j >= n) {
+			if (i < 0 || j >= n) {
 				break;
 			}
-			if (i >= 0 || j < 0) {
+			if (i >= n || j < 0) {
 				continue;
 			}
 			sum += arr[i][j];
