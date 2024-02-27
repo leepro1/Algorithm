@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class B2636 {
+public class B17070 {
 	static int N;
 	static int cnt;
 	static int[][] matrix;
