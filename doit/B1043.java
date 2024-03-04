@@ -1,12 +1,4 @@
-/*
- * https://www.acmicpc.net/problem/1043
- * 거짓말쟁이 지민이
- * 유니온-파인드를 이용하자
- * 진실을 아는 집합의 parent는 0으로 하여 union을 생략했다.
- * + 진실을 나중에 들키는 경우도 고려해주어야 하기 때문에 파티 정보를 저장해 두었다가 나중에 판별한다.
- * + 왜 그런지 모르겠는데 나중에 진실을 알게된 사람에 의한 거짓말을 들키는 파티는 1번만 반영이 아니라 연쇄적으로 dfs느낌으로 반영된다.
- */
-package doit;
+package baekjoon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,24 +32,16 @@ public class B1043 {
 		ArrayList<Integer>[] partyPeopleList = new ArrayList[m];
 
 		for (int i = 0; i < m; i++) {
-			boolean truthParty = false; // 진실된 파티 판별 변수
 			partyPeopleList[i] = new ArrayList<>();
 
 			st = new StringTokenizer(br.readLine());
 			int peoples = Integer.parseInt(st.nextToken());
 
-			while (peoples-- > 0) {
-				int num = Integer.parseInt(st.nextToken());
-				if (parent[num] == 0)
-					truthParty = true;
-				partyPeopleList[i].add(num);
-			}
+			while (peoples-- > 0)
+				partyPeopleList[i].add(Integer.parseInt(st.nextToken()));
 
-			// 진실을 알게된 파티였을때
-			if (truthParty) {
-				for (int temp : partyPeopleList[i])
-					parent[temp] = 0;
-			}
+			for (int temp = 1, size = partyPeopleList[i].size(); temp < size; temp++)
+				union(partyPeopleList[i].get(temp - 1), partyPeopleList[i].get(temp));
 		}
 
 		int cnt = 0; // 거짓파티의 수
@@ -65,12 +49,28 @@ public class B1043 {
 		for (ArrayList<Integer> partyList : partyPeopleList) {
 			cnt++;
 			for (int num : partyList) {
-				if (parent[num] == 0) {
+				if (find(num) == 0) {
 					cnt--;
 					break;
 				}
 			}
 		}
 		System.out.println(cnt);
+	}
+
+	static int find(int x) {
+		if (x == parent[x])
+			return x;
+		return parent[x] = find(parent[x]);
+	}
+
+	static void union(int x, int y) {
+		x = find(x);
+		y = find(y);
+
+		if (x < y)
+			parent[y] = x;
+		else
+			parent[x] = y;
 	}
 }
