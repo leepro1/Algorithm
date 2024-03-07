@@ -3,67 +3,68 @@ package inflearn;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class BFS {
-	public static int N;
+	public static int V, E;
+	public static boolean[] visited;
 	public static LinkedList<Integer>[] nodeList;
-    
+	public static StringBuilder sb = new StringBuilder();
+
 	public static void main(String[] args) throws IOException {
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st=new StringTokenizer(br.readLine());
-		
-		N=Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
-		int V = Integer.parseInt(st.nextToken());
-        
-		nodeList = new LinkedList[N+1];
-        
-		for(int i=0; i <= N; i++) {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
+		int V = Integer.parseInt(st.nextToken()); // 정점의 개수
+		int E = Integer.parseInt(st.nextToken()); // 간선의 개수
+
+		// 각 정점별로 인접한 정점리스트를 만든다.
+		nodeList = new LinkedList[V + 1];
+		for (int i = 1; i <= V; i++) {
 			nodeList[i] = new LinkedList<Integer>();
 		}
-        
-		for(int i=0; i < M; i++) {
+
+		// 간선 입력받기
+		for (int i = 0; i < E; i++) {
 			st = new StringTokenizer(br.readLine());
-            
+
 			int node1 = Integer.parseInt(st.nextToken());
 			int node2 = Integer.parseInt(st.nextToken());
-            
+
 			nodeList[node1].add(node2);
 			nodeList[node2].add(node1);
-            
+
+			// 같은 레벨(깊이)일 때 낮은 숫자를 먼저 탐색하기로 하자
 			Collections.sort(nodeList[node1]);
-            Collections.sort(nodeList[node2]);
+			Collections.sort(nodeList[node2]);
 		}
-        
-		StringBuilder bfsResult = new StringBuilder();
-        
-        boolean[] bfsVisited = new boolean[N+1];
-        
-        bfs(V, bfsVisited, bfsResult);
-        
-        System.out.println(bfsResult);
-    }
-    
-	public static void bfs(int node, boolean[] visited, StringBuilder sb) {
-		Queue<Integer> queue = new LinkedList<Integer>();
-        
-		queue.offer(node);
-        
-		while(!queue.isEmpty()) {
-			node = queue.poll();
-            
-			if(visited[node]) continue;
-            
-			visited[node] = true;
+
+		visited = new boolean[V + 1];
+
+		bfs();
+
+		System.out.println(sb);
+	}
+
+	public static void bfs() {
+		Queue<Integer> queue = new ArrayDeque<>();
+		queue.add(1);
+		visited[1] = true;
+
+		while (!queue.isEmpty()) {
+			int node = queue.poll();
 			sb.append(node + " ");
-            
-			for(int nextNode:nodeList[node]) {
-				queue.add(nextNode);
+
+			for (int nextNode : nodeList[node]) {
+				if (!visited[nextNode]) {
+					queue.add(nextNode);
+					visited[nextNode] = true;
+				}
 			}
-        }
-    }
+		}
+	}
 }
