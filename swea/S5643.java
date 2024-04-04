@@ -30,7 +30,7 @@ public class S5643 {
             }
 
             for (int k = 1; k <= N; k++) {
-                for (int i = 1; i < +N; i++) {
+                for (int i = 1; i <= N; i++) {
                     for (int j = 1; j <= N; j++) {
                         if (!map[i][j] && map[i][k] && map[k][j])
                             map[i][j] = true;
