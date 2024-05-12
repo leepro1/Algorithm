@@ -1,4 +1,4 @@
-pacakage programmers;
+package programmers;
 
 import java.util.*;
 
@@ -18,14 +18,14 @@ class P1844 {
                 int nx = temp[0] + dx[i];
                 int ny = temp[1] + dy[i];
                 
-                if(nx < 0 || ny < 0 || nx >= maps.length || ny >= maps[0].length)
+                if(nx < 0 || ny < 0 || nx >= maps.length || ny >= maps[0].length || maps[nx][ny] == 0)
                     continue;
                 
                 if(nx == maps.length - 1  && ny == maps[0].length - 1) {
                     return maps[temp[0]][temp[1]];
                 }
                     
-                if(maps[nx][ny] == 0) {
+                if(maps[nx][ny] == 1) {
                     maps[nx][ny] = maps[temp[0]][temp[1]] + 1;
                     queue.add(new int[] {nx, ny});
                 }

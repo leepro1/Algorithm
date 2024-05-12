@@ -1,3 +1,5 @@
+package programmers;
+
 import java.util.*;
 
 class P42862 {

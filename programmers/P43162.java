@@ -1,6 +1,6 @@
 package programmers;
 
-class p43162 {
+class P43162 {
     static int[] parents;
     
     static int find(int x){
