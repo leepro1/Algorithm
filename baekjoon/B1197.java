@@ -7,22 +7,22 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-//가중치 그래프의 간선 정보를 표현하는 클래스
-class Edge {
-	int v1, v2; // 간선 (v1, v2)를 이루는 정점 번호
-	int weight; // 간선 가중치
-
-	public Edge(int v1, int v2, int weight) {
-		this.v1 = v1;
-		this.v2 = v2;
-		this.weight = weight;
-	}
-}
-
 //크루스칼 알고리즘을 이용하여 최소비용신장트리를 구하는 프로그램
 public class B1197 {
 	// 트리를 이용한 상호배타적 집합 표현
 	private static int[] parent; // 트리의 각 노드의 부모 노드 번호를 저장할 배열 parent
+
+	//가중치 그래프의 간선 정보를 표현하는 클래스
+	static class Edge {
+		int v1, v2; // 간선 (v1, v2)를 이루는 정점 번호
+		int weight; // 간선 가중치
+
+		public Edge(int v1, int v2, int weight) {
+			this.v1 = v1;
+			this.v2 = v2;
+			this.weight = weight;
+		}
+	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
