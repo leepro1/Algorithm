@@ -1,4 +1,4 @@
-pacakage programmers;
+package programmers;
 
 class P42842 {
     public int[] solution(int brown, int yellow) {
