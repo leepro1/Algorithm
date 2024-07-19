@@ -71,13 +71,13 @@ public class B3190 {
             map[nx][ny] = 1;
 
             if (second == missionValue) {
-                if (mission[missionNum] > 0) {
+                if (mission[missionNum] < 0) {
                     direction = (direction + 1) % 4;
                 } else {
                     direction = (direction + 3) % 4;
                 }
 
-                if (missionNum < L) {
+                if (missionNum < L - 1) {
                     missionValue = Math.abs(mission[++missionNum]);
                 }
             }
