@@ -42,7 +42,7 @@ public class DisjointSet_path {
 		union(1, 5);
 		System.out.println(Arrays.toString(parent));
 		union(3, 5);
-		System.out.println(Arrays.toString(parents));
+		System.out.println(Arrays.toString(parent));
 		find(4);
 		System.out.println(Arrays.toString(parent));
 	}

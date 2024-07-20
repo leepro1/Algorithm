@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-class Main {
+class S1247 {
 	static int n;
 	static boolean[] visited;
 	static Node company, home;

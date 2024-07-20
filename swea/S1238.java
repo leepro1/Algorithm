@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Solution_1238_D4_Contact_이희주 {
+public class S1238 {
 	static int N, start, answer;
 	static boolean[] visited;
 	static ArrayList<Integer>[] nodeList;
