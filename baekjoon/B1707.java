@@ -11,12 +11,13 @@ import java.util.StringTokenizer;
 public class B1707 {
 
     static ArrayList<Integer>[] nodeList;
-    static boolean[] visited;
+    static int[] checked;
+
+    static boolean answer;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int k = Integer.parseInt(br.readLine()); // 테스트 케이스의 수
-
+        int k = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
         StringTokenizer st;
         while (k-- > 0) {
@@ -25,7 +26,7 @@ public class B1707 {
             int e = Integer.parseInt(st.nextToken());
 
             nodeList = new ArrayList[v + 1];
-            visited = new boolean[v + 1];
+            checked = new int[v + 1];
 
             for (int i = 1; i <= v; i++) {
                 nodeList[i] = new ArrayList<>();
@@ -37,38 +38,49 @@ public class B1707 {
                 int y = Integer.parseInt(st.nextToken());
 
                 nodeList[x].add(y);
+                nodeList[y].add(x);
             }
 
-            int cnt = 0; // 분할 개수를 저장할 변수
+            answer = false;
             for (int i = 1; i <= v; i++) {
-                if (!visited[i]) {
-                    bfs(i);
-                    cnt++;
+                if (checked[i] == 0) {
+                    checked[i] = 1;
+
+                    if (bfs(i)) {
+                        answer = true;
+                        break;
+                    }
                 }
             }
-            if (cnt == 2) {
-                sb.append("YES\n");
-            } else {
+
+            if (answer) {
                 sb.append("NO\n");
+            } else {
+                sb.append("YES\n");
             }
         }
         System.out.println(sb);
     }
 
-    static void bfs(int startNode) {
+    static boolean bfs(int startNode) {
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(startNode);
-        visited[startNode] = true;
 
         while (!queue.isEmpty()) {
             int node = queue.poll();
 
             for (int nextNode : nodeList[node]) {
-                if (!visited[nextNode]) {
+                if (checked[nextNode] == 0) {
+                    checked[nextNode] = -checked[node];
                     queue.offer(nextNode);
-                    visited[nextNode] = true;
+                } else {
+                    if (checked[node] == checked[nextNode]) {
+                        return true;
+                    }
                 }
             }
         }
+
+        return false;
     }
 }
