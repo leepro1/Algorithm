@@ -3,21 +3,12 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 public class B3020 {
 
     static int N, H;
-    static Map<Integer, Integer> bottomStone;
-    static Map<Integer, Integer> topStone;
-    static ArrayList<Integer> bottomStoneList;
-    static ArrayList<Integer> topStoneList;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,51 +16,25 @@ public class B3020 {
         N = Integer.parseInt(st.nextToken());
         H = Integer.parseInt(st.nextToken());
 
-        bottomStone = new HashMap<>();
-        topStone = new HashMap<>();
-        bottomStoneList = new ArrayList<>();
-        topStoneList = new ArrayList<>();
+        int[] bottomStoneList = new int[N / 2];
+        int[] topStoneList = new int[N / 2];
 
         for (int i = 0; i < N / 2; i++) {
             int tempBottom = Integer.parseInt(br.readLine());
             int tempTop = Integer.parseInt(br.readLine());
 
-            if (bottomStone.containsKey(tempBottom)) {
-                bottomStone.put(tempBottom, bottomStone.get(tempBottom) + 1);
-            } else {
-                bottomStone.put(tempBottom, 1);
-                bottomStoneList.add(tempBottom);
-            }
-
-            if (topStone.containsKey(tempTop)) {
-                topStone.put(tempTop, topStone.get(tempTop) + 1);
-            } else {
-                topStone.put(tempTop, 1);
-                topStoneList.add(tempTop);
-            }
-
+            bottomStoneList[i] = tempBottom;
+            topStoneList[i] = tempTop;
         }
 
-        Collections.sort(bottomStoneList);
-        Collections.sort(topStoneList);
+        Arrays.sort(bottomStoneList);
+        Arrays.sort(topStoneList);
 
         int answerStone = N;
         int answerCnt = 0;
 
         for (int i = 1; i <= H; i++) {
-            int stone = 0;
-
-            for (int bottom : bottomStoneList) {
-                if (H - bottom < i) {
-                    stone += bottomStone.get(bottom);
-                }
-            }
-
-            for (int top : topStoneList) {
-                if (top >= i) {
-                    stone += topStone.get(top);
-                }
-            }
+            int stone = binarySearch(i, bottomStoneList) + binarySearch(H - i + 1, topStoneList);
 
             if (answerStone == stone) {
                 answerCnt++;
@@ -81,5 +46,23 @@ public class B3020 {
         }
 
         System.out.println(answerStone + " " + answerCnt);
+    }
+
+    static int binarySearch(int h, int[] arr) {
+        int start = 0;
+        int end = N / 2;
+
+        while (start < end) {
+            int mid = (start + end) / 2;
+
+            if (arr[mid] >= h) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+
+        }
+
+        return N / 2 - end;
     }
 }
